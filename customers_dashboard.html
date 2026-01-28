@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      background: url('background2.jpeg') no-repeat center center fixed;
+            background-size: cover;
+    }
+
+    .dashboard {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: block;
+      width: 80%;
+      margin: 15px auto;
+      padding: 15px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .logout {
+      text-align: right;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .logout a {
+      color: red;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+  </style>
+</head>
+<body>
+  <a href="index.html" class="home-icon" title="Home">
+    <i class="fas fa-home"></i>
+  </a>
+  <div class="dashboard">
+  <div class="navbar">
+    <div class="logout">
+      <a onclick="logout()">Logout</a>
+    </div>
+      <h1>Welcome to Customer</h1>
+    </div>
+
+    <a class="btn" href="products.html">Browse Products</a>
+    <a class="btn" href="customer_orders.html">My Orders</a>
+  </div>
+
+  <script>
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'login.html';
+    }
+
+    // Ensure only logged-in customers can access
+    const user = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!user || user.role !== 'customer') {
+      alert('Access denied. Please login as a customer.');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Vegetables</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	<script src="script.js"></script>
+</head>
+<body>
+	<a href="products.html" class="home-icon" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+<div class="vegetables">
+	<h1>Vegetables</h1>
+	<div class="shop-container">
+			<div class="shop-item">
+				<img src="images/tomato.jpeg">
+				<p>Tomato</p>
+				<p class= "price">₹40/kg</p>
+				<input type="number" class="input-field" id="qty-Tomato" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Tomato" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Tomato', 40)">Buy Now</button>
+			
+			</div>
+			<div class="shop-item">
+				<img src="images/onion.jpeg">
+				<p>Onion<p>
+				<p class= "price">₹50/kg</p>
+				<input type="number" class="input-field" id="qty-Onion" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Onion" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Onion', 50)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/brinjal.jpeg">
+				<p>Brinjal<p>
+				<p class= "price">₹40/kg</p>
+				<input type="number" class="input-field" id="qty-Brinjal" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Brinjal" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Brinjal', 40)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/potato.jpeg">
+				<p>Potato<p>
+				<p class= "price">₹50/kg</p>
+				<input type="number" class="input-field" id="qty-Potato" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Potato" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Potato', 50)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/ladyfinger.jpeg">
+				<p>Ladyfinger<p>
+				<p class= "price">₹60/kg</p>
+				<input type="number" class="input-field" id="qty-Ladyfinger" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Ladyfinger" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Ladyfinger', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/carrot.jpeg">
+				<p>Carrot</p>	
+				<p class= "price">₹80/kg</p>
+				<input type="number" class="input-field" id="qty-Carrot" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Carrot" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Carrot', 80)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/cauliflower.jpeg">
+				<p>Cauliflower</p>	
+				<p class= "price">₹40</p>
+				<input type="number" class="input-field" id="qty-Cauliflower" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Cauliflower" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Cauliflower', 40)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/cabbage.jpeg">
+				<p>Cabbage</p>	
+				<p class= "price">₹40/kg</p>
+				<input type="number" class="input-field" id="qty-Cabbage" placeholder="Quantity (kg)" min="1" required>
+				<input type="text" class="input-field" id="loc-Cabbage" placeholder="Your Location" required>
+				<button class="buy-button" onclick="buyNow('Cabbage', 40)">Buy Now</button>
+			</div>
+
+	</div>
+</div>
+<script>
+	function buyNow(productName, price) {
+	  const qtyInput = document.getElementById(`qty-${productName}`);
+	  const locInput = document.getElementById(`loc-${productName}`);
+	  
+	  const quantity = qtyInput.value;
+	  const location = locInput.value;
+  
+	  if (!quantity || !location) {
+		alert("Please enter both quantity and location.");
+		return;
+	  }
+  
+	  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+	  if (!loggedInUser || loggedInUser.role !== "customer") {
+		alert("Please login as a customer to place an order.");
+		window.location.href = "login.html";
+		return;
+	  }
+  
+	  const newOrder = {
+		id: Date.now(), // unique ID
+		customerId: loggedInUser.mobile, // 🆔 Match with login ID
+		customerName: loggedInUser.name,
+		product: productName,
+		quantity: parseInt(quantity),
+		location: location,
+		status: "pending",
+		price: price,
+		date: new Date().toLocaleString()
+	  };
+  
+	  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+	  existingOrders.push(newOrder);
+	  localStorage.setItem("orders", JSON.stringify(existingOrders));
+  
+	  alert("✅ Order placed successfully!");
+	  window.location.href = "customer_orders.html";
+  
+	  qtyInput.value = "";
+	  locInput.value = "";
+	}
+  </script>
+  
+</body>
+</html>
+
+	

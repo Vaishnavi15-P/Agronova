@@ -1,0 +1,144 @@
+<!DOCTYPEhtml>
+
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Spices</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+	<a href="products.html" class="home-icon" title="Home">
+		<i class="fas fa-home"></i>
+	  </a>
+<div class="vegetables">
+	<h1>Spices</h1>
+	<div class="shop-container">
+			<div class="shop-item">
+				<img src="images/chilli.jpeg">
+				<p>Mirchi Powder</p>
+				<p class= "price">₹250/kg</p>
+				<input type="number" class="input-field" id="qty-Mirchi Powder" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Mirchi Powder" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Mirchi Powder', 250)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/chilli1.jpeg">
+				<p>Mirchi</p>
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-Mirchi" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Mirchi" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Mirchi', 150)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/turmeric.jpeg">
+				<p>Turmeric Powder<p>
+				<p class= "price">₹200/kg</p>
+				<input type="number" class="input-field" id="qty-Turmeric Powder" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Turmeric Powder" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Turmeric Powder', 200)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/turmeric1.jpeg">
+				<p>Turmeric<p>
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-Turmeric" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Turmeric" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Turmeric', 150)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/cloves.jpeg">
+				<p>Cloves<p>
+				<p class= "price">₹25/kg</p>
+				<input type="number" class="input-field" id="qty-Cloves" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Cloves" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Cloves', 25)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/cardamom.jpeg">
+				<p>Cardamom<p>
+				<p class= "price">₹45/kg</p>
+				<input type="number" class="input-field" id="qty-Cardamom" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Cardamom" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Cardamom', 45)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/blackpepper.jpeg">
+				<p>Black Pepper</p>	
+				<p class= "price">₹50/kg</p>
+				<input type="number" class="input-field" id="qty-Black Pepper" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Black Pepper" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Black Pepper', 50)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/garlic.jpeg">
+				<p>Garlic</p>	
+				<p class= "price">₹50/kg</p>
+				<input type="number" class="input-field" id="qty-Garlic" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Garlic" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Garlic', 50)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/ginger.jpeg">
+				<p>Ginger</p>	
+				<p class= "price">₹100/kg</p>
+				<input type="number" class="input-field" id="qty-Ginger" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Ginger" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Ginger', 100)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/mustard.jpeg">
+				<p>Mustard</p>	
+				<p class= "price">₹50/kg</p>
+				<input type="number" class="input-field" id="qty-Mustard" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Mustard" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Mustard', 50)">Buy Now</button>
+			</div>
+	</div>
+</div>
+<script>
+	function buyNow(productName, price) {
+	  const qtyInput = document.getElementById(`qty-${productName}`);
+	  const locInput = document.getElementById(`loc-${productName}`);
+	  
+	  const quantity = qtyInput.value;
+	  const location = locInput.value;
+  
+	  if (!quantity || !location) {
+		alert("Please enter both quantity and location.");
+		return;
+	  }
+  
+	  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+	  if (!loggedInUser || loggedInUser.role !== "customer") {
+		alert("Please login as a customer to place an order.");
+		window.location.href = "login.html";
+		return;
+	  }
+  
+	  const newOrder = {
+		id: Date.now(), // unique ID
+		customerId: loggedInUser.mobile, // 🆔 Match with login ID
+		customerName: loggedInUser.name,
+		product: productName,
+		quantity: parseInt(quantity),
+		location: location,
+		status: "pending",
+		price: price,
+		date: new Date().toLocaleString()
+	  };
+  
+	  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+	  existingOrders.push(newOrder);
+	  localStorage.setItem("orders", JSON.stringify(existingOrders));
+  
+	  alert("✅ Order placed successfully!");
+	  window.location.href = "customer_orders.html";
+  
+	  qtyInput.value = "";
+	  locInput.value = "";
+	}
+  </script>
+</body>
+</html>

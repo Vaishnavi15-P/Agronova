@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farmer Orders – AGRONOVA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: green;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: green;
+            color: white;
+        }
+        .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+    </style>
+</head>
+<body>
+    <a href="farmers_dashboard.html" class="home-icon" title="Home">
+		<i class="fas fa-home"></i>
+	  </a>
+
+    <h2>🛒 Farmer Orders</h2>
+
+    <table id="ordersTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Orders will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+      // Step 1: Get the logged-in farmer
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  
+      // Step 2: Check if logged-in user exists and has the necessary fields
+      if (!loggedInUser || !loggedInUser.location) {
+          alert("You must be logged in as a farmer with a valid location.");
+          window.location.href = "login-page.html";  // Redirect to login page if user data is missing
+           // Stop execution if user is not properly logged in
+      }
+  
+      // Step 3: Load all orders from localStorage
+      const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+  
+      // Step 4: Filter only the orders for this farmer based on location
+      const farmerOrders = allOrders.filter(order => 
+          order.location && loggedInUser.location && order.location.toLowerCase() === loggedInUser.location.toLowerCase()
+      );
+  
+      // Step 5: Populate the orders table
+      const tableBody = document.querySelector("#ordersTable tbody");
+  
+      if (farmerOrders.length === 0) {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td colspan="7">No matching orders found</td>`;
+          tableBody.appendChild(row);
+      } else {
+          farmerOrders.forEach((order, index) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                  <td>${order.product}</td>
+                  <td>${order.quantity}</td>
+                  <td>${order.location}</td>
+                  <td>${order.price}</td>
+                  <td>${order.date}</td>
+                  <td id="status-${index}">${order.status}</td>
+                  <td>
+                      <button class="accept" onclick="updateStatus(${index}, 'Accepted')">Accept</button>
+                      <button class="reject" onclick="updateStatus(${index}, 'Rejected')">Reject</button>
+                  </td>
+              `;
+              tableBody.appendChild(row);
+          });
+      }
+  
+      // Step 6: Update order status (Accept/Reject)
+      function updateStatus(index, newStatus) {
+          const filteredOrders = allOrders.filter(order => 
+              order.location && loggedInUser.location && order.location.toLowerCase() === loggedInUser.location.toLowerCase()
+          );
+  
+          const orderToUpdate = filteredOrders[index];
+  
+          const realIndex = allOrders.findIndex(order =>
+              order.customerId === orderToUpdate.customerId &&
+              order.product === orderToUpdate.product &&
+              order.date === orderToUpdate.date
+          );
+  
+          if (realIndex !== -1) {
+              allOrders[realIndex].status = newStatus;
+              localStorage.setItem("orders", JSON.stringify(allOrders));
+              document.getElementById(`status-${index}`).innerText = newStatus;
+              alert(`Order has been ${newStatus}`);
+          }
+      }
+  </script>
+  
+  
+
+</body>
+</html>

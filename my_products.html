@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Products - Farmer Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f9;
+      margin: 0;
+      padding: 30px 20px;
+    }
+
+    h2 {
+      color: #2e8b57;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .product-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border-left: 5px solid #4caf50;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.01);
+    }
+
+    .product-card strong {
+      font-size: 20px;
+      color: #333;
+      text-transform: capitalize;
+    }
+
+    .product-card p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 15px;
+    }
+
+    .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+  </style>
+</head>
+<body>
+  <a href="farmers_dashboard.html" class="home-icon" title="Home">
+		<i class="fas fa-home"></i>
+	  </a><br>
+  <h2>My Products</h2>
+  <div class="product-list" id="productList"></div>
+
+  <script>
+    const products = JSON.parse(localStorage.getItem('farmerProducts')) || [];
+
+    const productList = document.getElementById('productList');
+
+    if (products.length === 0) {
+      productList.innerHTML = '<p>No products added yet.</p>';
+    } else {
+      products.forEach((product) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <strong>${product.name}</strong><br>
+          Category: ${product.category}<br>
+          Price: ₹${product.price} / kg<br>
+          Quantity: ${product.quantity} kg
+        `;
+        productList.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>

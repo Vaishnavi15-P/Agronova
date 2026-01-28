@@ -1,0 +1,143 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fruits</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+	<a href="products.html" class="home-icon" title="Home">
+		<i class="fas fa-home"></i>
+	  </a>
+<div class="vegetables">
+	<h1>Fruits</h1>
+	<div class="shop-container">
+			<div class="shop-item">
+				<img src="images/apple.jpeg">
+				<p>Apple</p>
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-Apple" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Apple" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Apple', 150)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/banana.jpeg">
+				<p>Banana<p>
+				<p class= "price">₹60/Dozen</p>
+				<input type="number" class="input-field" id="qty-Banana" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Banana" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Banana', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/orange.jpeg">
+				<p>Orange<p>
+				<p class= "price">₹100/Dozen</p>
+				<input type="number" class="input-field" id="qty-Orange" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Orange" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Orange', 100)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/strawberry.jpeg">
+				<p>Strawberry<p>
+				<p class= "price">₹100</p>
+				<input type="number" class="input-field" id="qty-Strawberry" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Strawberry" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Strawberry', 100)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/grapes.jpeg">
+				<p>Grapes<p>
+				<p class= "price">₹60/kg</p>
+				<input type="number" class="input-field" id="qty-Grapes" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Grapes" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Grapes', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/pineapple.jpeg">
+				<p>PineApple</p>	
+				<p class= "price">₹50</p>
+				<input type="number" class="input-field" id="qty-PineApple" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-PineApple" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('PineApple', 50)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/pomegranate.jpg">
+				<p>Pomegranate</p>	
+				<p class= "price">₹200/kg</p>
+				<input type="number" class="input-field" id="qty-Pomegranate" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Pomegranate" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Pomegranate', 200)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/mango.jpeg">
+				<p>Mango</p>	
+				<p class= "price">₹100/kg</p>
+				<input type="number" class="input-field" id="qty-Mango" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Mango" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Mango',100)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/guava.jpeg">
+				<p>Guava</p>	
+				<p class= "price">₹60/kg</p>
+				<input type="number" class="input-field" id="qty-Guava" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Guava" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Guava', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/watermelon.jpeg">
+				<p>WaterMelon</p>	
+				<p class= "price">₹30/kg</p>
+				<input type="number" class="input-field" id="qty-WaterMelon" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-WaterMelon" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('WaterMelon', 30)">Buy Now</button>
+			</div>
+	</div>
+</div>
+<script>
+	function buyNow(productName, price) {
+	  const qtyInput = document.getElementById(`qty-${productName}`);
+	  const locInput = document.getElementById(`loc-${productName}`);
+	  
+	  const quantity = qtyInput.value;
+	  const location = locInput.value;
+  
+	  if (!quantity || !location) {
+		alert("Please enter both quantity and location.");
+		return;
+	  }
+  
+	  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+	  if (!loggedInUser || loggedInUser.role !== "customer") {
+		alert("Please login as a customer to place an order.");
+		window.location.href = "login.html";
+		return;
+	  }
+  
+	  const newOrder = {
+		id: Date.now(), // unique ID
+		customerId: loggedInUser.mobile, // 🆔 Match with login ID
+		customerName: loggedInUser.name,
+		product: productName,
+		quantity: parseInt(quantity),
+		location: location,
+		status: "pending",
+		price: price,
+		date: new Date().toLocaleString()
+	  };
+  
+	  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+	  existingOrders.push(newOrder);
+	  localStorage.setItem("orders", JSON.stringify(existingOrders));
+  
+	  alert("✅ Order placed successfully!");
+	  window.location.href = "customer_orders.html";
+  
+	  qtyInput.value = "";
+	  locInput.value = "";
+	}
+  </script>
+</body>
+</html>

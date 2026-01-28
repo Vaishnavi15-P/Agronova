@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmer Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      
+    }
+    h2 {
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    nav button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background-color: #218838;
+    }
+    .product-card {
+      background: white;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .product-card p {
+      margin: 5px 0;
+    }
+    .product-card button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .edit-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+    }
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+    }
+    .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+.navbar{
+background-color: green;
+color: white;
+max-width: 100%;
+padding: 20px 0 20px 0;
+}
+.logo {
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+}
+  </style>
+</head>
+<body>
+  <br><br>
+  <a href="index.html" class="home-icon" title="Home">
+		<i class="fas fa-home"></i>
+	  </a>
+  <div class="navbar">
+    <div class="logo">
+        <h2>Welcome to Farmer Dashboard</h2>
+    </div>
+    <nav>
+      <button onclick="window.location.href='edit_products.html'">Add Product</button>
+      <button onclick="window.location.href='my_products.html'">My Products</button>
+      <button onclick="window.location.href='news.html'">News</button>
+      <button onclick="window.location.href='farmers-orders.html'">Orders</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </div>
+
+  <h3>My Products</h3>
+  <div id="productList"></div>
+
+  <script>
+    const farmerPhone = localStorage.getItem("currentFarmerPhone");
+    const allProducts = JSON.parse(localStorage.getItem("products")) || [];
+    const myProducts = allProducts.filter(p => p.farmerPhone === farmerPhone);
+    const productList = document.getElementById("productList");
+
+    if (myProducts.length === 0) {
+      productList.innerHTML = "<p>You haven't added any products yet.</p>";
+    } else {
+      myProducts.forEach((product, index) => {
+        const div = document.createElement("div");
+        div.className = "product-card";
+        div.innerHTML = `
+          <p><strong>Name:</strong> ${product.name}</p>
+          <p><strong>Category:</strong> ${product.category}</p>
+          <p><strong>Price:</strong> ₹${product.price}</p>
+          <p><strong>Quantity:</strong> ${product.quantity} kg</p>
+          <button class="edit-btn" onclick="editProduct(${index})">Edit</button>
+          <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
+        `;
+        productList.appendChild(div);
+      });
+    }
+
+    function editProduct(index) {
+      const myProducts = JSON.parse(localStorage.getItem("products")).filter(p => p.farmerPhone === farmerPhone);
+      const selectedProduct = myProducts[index];
+      localStorage.setItem("editProduct", JSON.stringify(selectedProduct));
+      window.location.href = "edit_product.html";
+    }
+
+    function deleteProduct(index) {
+      let products = JSON.parse(localStorage.getItem("products")) || [];
+      const filtered = products.filter(p => p.farmerPhone !== farmerPhone);
+      const mine = products.filter(p => p.farmerPhone === farmerPhone);
+      mine.splice(index, 1);
+      const updated = filtered.concat(mine);
+      localStorage.setItem("products", JSON.stringify(updated));
+      alert("Product deleted successfully!");
+      location.reload();
+    }
+
+    function logout() {
+      localStorage.removeItem("currentFarmerEmail");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

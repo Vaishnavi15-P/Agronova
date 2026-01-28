@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+            background: url('background.jpeg') no-repeat center center fixed;
+            background-size: cover;
+
+        }
+        .container {
+            max-width: 350px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+    </style>
+
+  
+</head>
+<body>
+  <a href="index.html" class="home-icon" title="Home">
+    <i class="fas fa-home"></i>
+  </a>
+
+
+<div class="container">
+    <h2>Login</h2>
+
+    <form id="loginForm">
+        <label for="role">Role:</label>
+        <select id="role" required>
+        <option value="farmer">Farmer</option>
+        <option value="customer">Customer</option>
+        </select><br><br>
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" placeholder="Enter registered mobile number" required>
+	
+	      <label for="password">Password:</label>
+	      <input type="password" id="password" placeholder="Enter password" required>
+
+        <button type="submit" class="btn">Login</button>
+        <p>Not registered? <a href="register.html">Register here</a></p>
+    
+    </form>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("loginForm");
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const role = document.getElementById("role").value;
+      const mobile = document.getElementById("mobile").value;
+      const password = document.getElementById("password").value;
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // ✅ Define user first!
+      const user = users.find(u => u.mobile === mobile && u.password === password && u.role === role);
+
+      if (user) {
+        alert("Login successful!");
+        localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+        if (role === "farmer") {
+          window.location.href = "farmers_dashboard.html";
+        } else if(role ==="customer"){
+          window.location.href = "customers_dashboard.html";
+        }
+      } else {
+        alert("Invalid mobile number, password, or role.");
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>

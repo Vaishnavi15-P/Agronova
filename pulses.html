@@ -1,0 +1,133 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pulses</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+	<a href="products.html" class="home-icon" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+<div class="vegetables">
+	<h1>Pulses</h1>
+	<div class="shop-container">
+			<div class="shop-item">
+				<img src="images/greengram.jpeg">
+				<p>Green Lentils</p>
+				<p>(Moong dal)</p>
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-Green Lentils" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Green Lentils" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Green Lentils', 150)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/blackgram.jpeg">
+				<p>Black Gram<p>
+				<p>(Urad dal)</p>
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-Black Gram" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Black Gram" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Black Gram', 150)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/chana.jpeg">
+				<p>chickpeas<p>
+				<p>(Chana)</p>
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-chickpeas" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-chickpeas" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('chickpeas', 150)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/pea.jpeg">
+				<p>Peas</p>
+				<p>(Toor dal)</p>
+				<p class= "price">₹60/kg</p>
+				<input type="number" class="input-field" id="qty-Peas" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Peas" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Peas', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/soybean.jpeg">
+				<p>Soybean</p>	
+				<p class= "price">₹80/kg</p>
+				<input type="number" class="input-field" id="qty-Soybean" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Soybean" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Soybean', 80)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/redgram.jpeg">
+				<p>Red Lentils</p>	
+				<p>(Masoor Dal)</p>
+				<p class= "price">₹80/kg</p>
+				<input type="number" class="input-field" id="qty-Red Lentils" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Red Lentils" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Red Lentils', 80)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/ylentils.jpeg">
+				<p>Yellow Lentils</p>
+				<p>(Moong Dal)</p>	
+				<p class= "price">₹150/kg</p>
+				<input type="number" class="input-field" id="qty-Yellow Lentils" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="Yellow Lentils" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Yellow Lentils', 150)">Buy Now</button>
+			</div>
+
+	</div>
+</div>
+<script>
+	function buyNow(productName, price) {
+	  const qtyInput = document.getElementById(`qty-${productName}`);
+	  const locInput = document.getElementById(`loc-${productName}`);
+	  
+	  const quantity = qtyInput.value;
+	  const location = locInput.value;
+  
+	  if (!quantity || !location) {
+		alert("Please enter both quantity and location.");
+		return;
+	  }
+  
+	  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+	  if (!loggedInUser || loggedInUser.role !== "customer") {
+		alert("Please login as a customer to place an order.");
+		window.location.href = "login.html";
+		return;
+	  }
+  
+	  const newOrder = {
+		id: Date.now(), // unique ID
+		customerId: loggedInUser.mobile, // 🆔 Match with login ID
+		customerName: loggedInUser.name,
+		product: productName,
+		quantity: parseInt(quantity),
+		location: location,
+		status: "pending",
+		price: price,
+		date: new Date().toLocaleString()
+	  };
+  
+	  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+	  existingOrders.push(newOrder);
+	  localStorage.setItem("orders", JSON.stringify(existingOrders));
+  
+	  alert("✅ Order placed successfully!");
+	  window.location.href = "customer_orders.html";
+  
+	  qtyInput.value = "";
+	  locInput.value = "";
+	}
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

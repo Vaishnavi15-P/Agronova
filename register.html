@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+            background: url('background.jpeg') no-repeat center center fixed;
+            background-size: cover;
+
+        }
+
+        .container {
+            max-width: 400px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+        }
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .btn {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .voice-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+        }
+        .hidden {
+            display: none;
+        }
+        .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-icon" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+
+<div class="container">
+    <h2>Register</h2>
+
+    <form id="registrationForm">
+        <!-- User Type Selection -->
+        <label for="role">Role:</label>
+        <select id="role" required>
+            <option value="">Select Role</option>
+            <option value="farmer">Farmer</option>
+            <option value="customer">Customer</option>
+        </select>
+
+        <label for="fullName">Your Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" placeholder="Enter mobile number" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter password" required>
+        <label for="location">Your Location/pincode:</label>
+        <input type="text" id="location" placeholder="Enter location/pincode" required>
+            
+        <label for="address">Address:</label>
+        <input type="text" id="address" placeholder="Enter address">
+
+
+        <!-- OTP Verification -->
+        <button type="button" class="btn" onclick="sendOTP()">Send OTP</button>
+        <input type="text" id="otp" placeholder="Enter OTP" >
+
+        <!-- Terms & Conditions -->
+        <input type="checkbox" id="terms" required>
+        <label for="terms">I agree to the Terms & Conditions</label>
+
+        <!-- Submit -->
+        <button type="submit" class="btn">Register</button>
+    </form>
+<p>Already registered? <a href="login.html">Login here</a></p>
+</div>
+
+<script>
+  // Simulate OTP sending function
+   function sendOTP() {
+   let mobile = document.getElementById('mobile').value;
+       if (mobile.length === 10) {
+           alert("OTP sent to " + mobile);
+            document.getElementById('otp').classList.remove('hidden');
+       } else {
+           alert("Please enter a valid 10-digit mobile number.");
+       }
+}
+
+
+
+// ✅ Only ONE submit handler
+/*document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const role = document.getElementById('role').value;
+
+    if (response.ok) {
+        alert('Registration successful! Redirecting...');
+        console.log('User Role:', role);
+
+        if (role === 'farmer') {
+            alert("Registration successful! Redirecting to Farmer Dashboard...");
+            window.location.href="product_edit.html";
+        } else if (role === 'customer') {
+            alert("Registration successful! Redirecting to Customer Products Page...")
+            window.location.href="products.html";
+        }
+    } else {
+        alert('Registration failed: ' + data.message);
+    }
+});*/
+  // Simulate sending OTP
+//  function sendOTP() {
+ // const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
+ // localStorage.setItem('generatedOTP', otp);
+ // alert("Your OTP is: " + otp); // Simulate sending OTP
+//}
+
+document.getElementById('registrationForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const role = document.getElementById('role').value;
+  const name = document.getElementById('name').value;
+  const mobile = document.getElementById('mobile').value;
+  const password = document.getElementById('password').value;
+  const location = document.getElementById('location').value;
+  const address = document.getElementById('address').value;
+  const otp = document.getElementById('otp').value;
+  const terms = document.getElementById('terms').checked;
+
+
+  if (!terms) {
+    alert("You must agree to the terms and conditions.");
+    return;
+  }
+   const user = {
+    role,
+    name,
+    mobile,
+    password,
+    location,
+    address,
+    otp
+  };
+
+  let users = JSON.parse(localStorage.getItem('users')) || [];
+  users.push(user);
+  localStorage.setItem('users', JSON.stringify(users));
+
+  alert("Registration successful!");
+  window.location.href = "login.html";
+});
+
+
+
+</script>
+</body>
+</html>

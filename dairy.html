@@ -1,0 +1,95 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dairy and Animal Products</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+	<a href="products.html" class="home-icon" title="Home">
+		<i class="fas fa-home"></i>
+	  </a>
+<div class="vegetables">
+	<h1>Dairy and Animal Products</h1>
+	<div class="shop-container">
+			<div class="shop-item">
+				<img src="images/milk.jpeg">
+				<p>Milk</p>
+				<p class= "price">₹60/litre</p>
+				<input type="number" class="input-field" id="qty-Milk" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Milk" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Milk', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/curd.jpeg">
+				<p>Curd<p>
+				<p class= "price">₹60/litre</p>
+				<input type="number" class="input-field" id="qty-Curd" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Curd" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Curd', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/butter.jpeg">
+				<p>Butter<p>
+				<p class= "price">₹600/kg</p>
+				<input type="number" class="input-field" id="qty-Butter" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Butter" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Butter', 600)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/ghee.jpeg">
+				<p>Ghee<p>
+				<p class= "price">₹700/kg</p>
+				<input type="number" class="input-field" id="qty-Ghee" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Ghee" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Ghee', 700)">Buy Now</button>
+			</div>
+		</div>
+</div>
+<script>
+	function buyNow(productName, price) {
+	  const qtyInput = document.getElementById(`qty-${productName}`);
+	  const locInput = document.getElementById(`loc-${productName}`);
+	  
+	  const quantity = qtyInput.value;
+	  const location = locInput.value;
+  
+	  if (!quantity || !location) {
+		alert("Please enter both quantity and location.");
+		return;
+	  }
+  
+	  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+	  if (!loggedInUser || loggedInUser.role !== "customer") {
+		alert("Please login as a customer to place an order.");
+		window.location.href = "login.html";
+		return;
+	  }
+  
+	  const newOrder = {
+		id: Date.now(), // unique ID
+		customerId: loggedInUser.mobile, // 🆔 Match with login ID
+		customerName: loggedInUser.name,
+		product: productName,
+		quantity: parseInt(quantity),
+		location: location,
+		status: "pending",
+		price: price,
+		date: new Date().toLocaleString()
+	  };
+  
+	  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+	  existingOrders.push(newOrder);
+	  localStorage.setItem("orders", JSON.stringify(existingOrders));
+  
+	  alert("✅ Order placed successfully!");
+	  window.location.href = "customer_orders.html";
+  
+	  qtyInput.value = "";
+	  locInput.value = "";
+	}
+  </script>
+</body>
+</html>

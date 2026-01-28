@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>My Orders – AGRONOVA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: green;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: green;
+            color: white;
+        }
+        .home-icon {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            text-decoration: none;
+            z-index: 999;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+  .home-icon:hover {
+    background-color: #388e3c;
+  }
+
+.home-button:hover {
+  background-color: #388e3c;
+}
+    </style>
+</head>
+<body>
+    <a href="farmers_dashboard.html" class="home-icon" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+      <br>
+    <h2>🛒 My Orders </h2>
+
+    <table id="ordersTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Orders will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Step 1: Get the logged-in user
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+        // Step 2: Load all orders from localStorage
+        const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+        // Step 3: Filter only this customer's orders
+        const customerOrders = allOrders.filter(order => order.customerId === loggedInUser.mobile);
+
+        // Step 4: Populate the table
+        const tableBody = document.querySelector("#ordersTable tbody");
+
+        if (customerOrders.length === 0) {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td colspan="6">No orders found</td>`;
+            tableBody.appendChild(row);
+        } else {
+            customerOrders.forEach(order => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${order.product}</td>
+                    <td>${order.quantity}</td>
+                    <td>${order.location}</td>
+                    <td>${order.price}</td>
+                    <td>${order.date}</td>
+                    <td>${order.status}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+
+</body>
+</html>

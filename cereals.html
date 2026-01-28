@@ -1,0 +1,117 @@
+<!DOCTYPEhtml>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cereals</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+	<a href="products.html" class="home-icon" title="Home">
+        <i class="fas fa-home"></i>
+      </a>
+<div class="vegetables">
+	<h1>Cereals</h1>
+	<div class="shop-container">
+			<div class="shop-item">
+				<img src="images/millet.jpeg">
+				<p>Millet</p>
+				<p>(Bajra)</p>
+				<p class= "price">₹100/kg</p>
+				<input type="number" class="input-field" id="qty-Millet" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Millet" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Millet', 100)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/wheat.jpeg">
+				<p>Wheat<p>
+				<p>(Gehun)</p>
+				<p class= "price">₹40/kg</p>
+				<input type="number" class="input-field" id="qty-Wheat" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Wheat" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Wheat', 40)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/maize.jpeg">
+				<p>Maize<p>
+				<p>(Makan)</p>
+				<p class= "price">₹25/kg</p>
+				<input type="number" class="input-field" id="qty-Maize" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Maize" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Maize', 25)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/rice.jpeg">
+				<p>Rice</p>
+				<p>(chawal)</p>
+				<p class= "price">₹60/kg</p>
+				<input type="number" class="input-field" id="qty-Rice" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Rice" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Rice', 60)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/sorghum.jpeg">
+				<p>Sorghum</p>	
+				<p>(Jowar)</p>
+				<p class= "price">₹80/kg</p>
+				<input type="number" class="input-field" id="qty-Sorghum" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Sorghum" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Sorghum', 80)">Buy Now</button>
+			</div>
+			<div class="shop-item">
+				<img src="images/barley.jpg">
+				<p>Barley</p>	
+				<p class= "price">₹200/kg</p>
+				<input type="number" class="input-field" id="qty-Barley" placeholder="Quantity (kg)" min="1" required>
+  				<input type="text" class="input-field" id="loc-Barley" placeholder="Your Location" required>
+  				<button class="buy-button" onclick="buyNow('Barley', 200)">Buy Now</button>
+			</div>
+
+	</div>
+</div>
+<script>
+	function buyNow(productName, price) {
+	  const qtyInput = document.getElementById(`qty-${productName}`);
+	  const locInput = document.getElementById(`loc-${productName}`);
+	  
+	  const quantity = qtyInput.value;
+	  const location = locInput.value;
+  
+	  if (!quantity || !location) {
+		alert("Please enter both quantity and location.");
+		return;
+	  }
+  
+	  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+	  if (!loggedInUser || loggedInUser.role !== "customer") {
+		alert("Please login as a customer to place an order.");
+		window.location.href = "login.html";
+		return;
+	  }
+  
+	  const newOrder = {
+		id: Date.now(), // unique ID
+		customerId: loggedInUser.mobile, // 🆔 Match with login ID
+		customerName: loggedInUser.name,
+		product: productName,
+		quantity: parseInt(quantity),
+		location: location,
+		status: "pending",
+		price: price,
+		date: new Date().toLocaleString()
+	  };
+  
+	  const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+	  existingOrders.push(newOrder);
+	  localStorage.setItem("orders", JSON.stringify(existingOrders));
+  
+	  alert("✅ Order placed successfully!");
+	  window.location.href = "customer_orders.html";
+  
+	  qtyInput.value = "";
+	  locInput.value = "";
+	}
+  </script>
+</body>
+</html>
